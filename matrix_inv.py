@@ -10,36 +10,47 @@ n_act = (0,0)
 
 mat_dict = {}
 
+#initialization of the matrices
 for i in range(0,2):
     for j in range (0,9):
         mat_dict[(i,j)] = np.zeros(shape=(3,3))
 
+#loop for each line
 for k in range(len(lines)):
     line = lines[k]
 
+    #p is the 
     for p in range(0,5):
-        if (p == 1 or p == 3):
+        if (p == 1 or p == 3): #if particle is pi+ or K+ we ignore it
             continue
-        for q in range (0,3):       
-                n_act = (p,q) 
-
+        
+        #to loop over all possible indices
+        for q in range (0,3):
+                #actual index
+                n_act = (p,q)
+                
                 s = line.split()
                 
+                #this should be a condition for process identification
+                #for this value we loop over i and j
                 if (len(s) == 2 and int(s[0]) == n_act[0] and int(s[1]) == n_act[1]):
                                         
-                    for i in range(0,3):
-                        for j in range (1,9):
+                    for i in range(0,2):
+                        for j in range (1,10):
                             
+                            #
                             split = lines[k+i*8+j].split()
+                            
+                            #basically zero values ignored
                             if (float(split[2]) < 1e-3):
                                 continue
-                            
+                            #actual value for pion-
                             if (p == 0):
-                                mat_dict[(i,j-1)][n_act[0]][n_act[1]] =  float(split[2])
-                                
+                                mat_dict[(i,j-1)][0][n_act[1]] =  float(split[2])
+                            #actual value for K-
                             if (p == 2):
                                 mat_dict[(i,j-1)][1][n_act[1]] =  float(split[2])
-                                
+                            #actual value for p
                             if (p == 4):
                                 mat_dict[(i,j-1)][2][n_act[1]] =  float(split[2])                  
                                     
